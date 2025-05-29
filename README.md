@@ -1,5 +1,7 @@
 # bun-hono-boilerplate
 
+# WIP - Do not use yet
+
 Boilerplate project to create a backend with Bun and Hono
 
 (This is a work in progress, don't use it in production yet)
