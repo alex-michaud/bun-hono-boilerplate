@@ -1,0 +1,52 @@
+{
+  "name": "bun-hono-boilerplate",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "prisma": {
+    "schema": "./src/prisma/schema.prisma"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "postinstall": "bun run build",
+    "start": "bun run build && bun run ./dist/index.js",
+    "dev": "bun --watch ./src/index.ts",
+    "debug": "bun --inspect-wait ./src/index.ts",
+    "db:generate": "bun --env-file=.env prisma generate --schema=./src/prisma/schema.prisma",
+    "db:deploy": "bun --env-file=.env prisma migrate deploy --schema=./src/prisma/schema.prisma",
+    "db:migrate": "bun --env-file=.env prisma migrate dev --schema=./src/prisma/schema.prisma",
+    "db:status": "bun --env-file=.env prisma migrate status --schema=./src/prisma/schema.prisma",
+    "db:validate": "bun --env-file=.env prisma validate --schema=./src/prisma/schema.prisma",
+    "db:format": "bun --env-file=.env prisma format --schema=./src/prisma/schema.prisma",
+    "db:studio": "bun --env-file=.env prisma studio --schema=./src/prisma/schema.prisma",
+    "db:debug": "bun --env-file=.env prisma debug --schema=./src/prisma/schema.prisma",
+    "lint": "biome lint --write ./src ./scripts ./tests",
+    "format": "biome format --write ./src ./scripts ./tests",
+    "check": "biome check ./src ./scripts ./tests",
+    "ci": "biome ci ./src ./scripts ./tests",
+    "openapi": "bun ./scripts/generate-openapi.ts",
+    "openapi:client:hey-api": "openapi-ts",
+    "test:api": "bun test ./tests/api"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@hey-api/client-fetch": "^0.10.2",
+    "@types/bun": "latest",
+    "@types/node": "^22.15.21",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "swagger-jsdoc": "^6.2.8"
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.3.2",
+    "@hey-api/openapi-ts": "^0.68.0",
+    "better-auth": "^1.2.8",
+    "hono": "^4.7.10",
+    "init": "^0.1.2",
+    "pglite-prisma-adapter": "^0.5.0",
+    "prisma": "^6.8.2",
+    "zod": "^3.25.28"
+  }
+}
