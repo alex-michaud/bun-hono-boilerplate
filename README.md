@@ -9,23 +9,29 @@ Boilerplate project to create a backend with Bun and Hono
 ## Why Bun and Hono?
 
 Bun is a modern JavaScript runtime that is fast and efficient. It is designed to be a drop-in replacement for Node.js, but with a focus on performance and developer experience.
-Hono is a lightweight web framework for Bun that is designed to be fast and easy to use. It is built on top of the Bun runtime and provides a simple API for building web applications.
+Hono is a fast and lightweight web framework. 
 
 The goal of this boilerplate is to provide a starting point for building a REST API backend that is fast, well-structured and easy to maintain.
-I value simplicity and ease of understanding (low cognitive complexity). I believe that it will increase the chances of a successful project.
-I try to follow standards and best practices. One of the goals is also to create code that is straightforward to test and that can be easily extended in the future.
+The project values simplicity and ease of understanding (low cognitive complexity), which increase the chance of success.
+Another goal is to create code that is straightforward to test and easy to extend.
 
 ## Features
+
+This boilerplate should provide a solid foundation for building a REST API backend with the following features:
 
 - [Bun](https://bun.sh/)
 - [Hono](https://hono.dev/)
 - TypeScript
 - [Biome](https://biomejs.dev/) (Linting and formatting)
 - OpenAPI/Swagger
+- [Prisma](https://www.prisma.io/) (ORM)
+- [Better-Auth](https://www.better-auth.com/) (Authentication)
+- [hey-api](https://heyapi.dev/) (Client SDK generation)
+- MCP (Model-Context-Protocol) server for LLMs
 
-## Getting Started
+Both hey-api and MCP server leverage the OpenAPI specs document to generate a client SDK and a server that can be used to interact with LLMs.
 
-### Install dependencies
+## Step by Step Installation Guide
 
 To run this project, you will first need to install the [Bun](https://bun.sh/) runtime.
 Bun also comes with a package manager and some utilities that I believe will simplify the project by having fewer packages to install and maintain.
@@ -124,8 +130,6 @@ bun run openapi
 
 ```bash
 bun add --dev --exact @biomejs/biome
-bun add -d eslint @eslint/js @typescript-eslint/parser @typescript-eslint/eslint-plugin typescript-eslint eslint-plugin-import globals
-bun create @eslint/config@latest
 ```
 
 9. Install [Prisma](https://www.prisma.io)
@@ -137,8 +141,8 @@ bun add prisma
 
 10. Install PGLite and its adapter
 
-PGLite is a lightweight, file-based database. Its suitable from demo projects like this one but not for production use.
-If you're planning to build a production-ready application, you should consider using a docker service instead.
+PGLite is a lightweight, file-based database. It's suitable for demo projects like this one, but not for production use.
+If you're planning to build a production-ready application, you should consider using a docker service instead. A docker service is more similar to what you will use in production.
 You can refer to the file `docker-compose.yml` in this repository for an example of how to set up a Postgres database with Docker.
 
 ```bash
@@ -222,3 +226,10 @@ bun run openapi:client:hey-api
 - https://github.com/ivo-toby/mcp-openapi-server
 - https://github.com/ReAPI-com/mcp-openapi
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for details on how to contribute to this project.
