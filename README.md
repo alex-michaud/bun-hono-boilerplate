@@ -9,7 +9,7 @@ Boilerplate project to create a backend with Bun and Hono
 ## Why Bun and Hono?
 
 Bun is a modern JavaScript runtime that is fast and efficient. It is designed to be a drop-in replacement for Node.js, but with a focus on performance and developer experience.
-Hono is a fast and lightweight web framework. 
+Hono is a fast and lightweight web framework that is compatible with Bun. 
 
 The goal of this boilerplate is to provide a starting point for building a REST API backend that is fast, well-structured and easy to maintain.
 The project values simplicity and ease of understanding (low cognitive complexity), which increase the chance of success.
@@ -83,8 +83,10 @@ touch .env
 And add the following content:
 
 ```
-PORT=3000
+API_PORT=3000
 DATABASE_DIR="./data"
+BETTER_AUTH_SECRET=better-auth-secret
+TRUSTED_ORIGINS=http://localhost:3000
 ```
 
 Run this command to create the data directory:
@@ -126,20 +128,35 @@ You can run it with:
 bun run openapi
 ```
 
+This will generate the OpenAPI specs document in the `./docs/openapi.json` file.
+
 8. Install [Biome](https://biomejs.dev) *linting and formatting tool*
 
+Biome is a modern linting and formatting tool that replaces ESLint and Prettier.
+It's much easier to use and configure than ESLint and Prettier, and it's also a lot faster.
+
 ```bash
-bun add --dev --exact @biomejs/biome
+bun add -d @biomejs/biome
 ```
 
-9. Install [Prisma](https://www.prisma.io)
+9. Install [Pino](https://getpino.io)
+
+Pino is a fast and lightweight logging library.
+
+```bash
+bun add pino
+```
+
+10. Install [Prisma](https://www.prisma.io)
+
+Prisma is a modern ORM that allows you to interact with your database in a type-safe way.
 
 ```bash
 bun add -d typescript @types/node
 bun add prisma
 ```
 
-10. Install PGLite and its adapter
+11. Install PGLite and its adapter
 
 PGLite is a lightweight, file-based database. It's suitable for demo projects like this one, but not for production use.
 If you're planning to build a production-ready application, you should consider using a docker service instead. A docker service is more similar to what you will use in production.
@@ -154,7 +171,7 @@ bun add pglite-prisma-adapter @electric-sql/pglite
 _Note: PGLite is used as an example for this boilerplate. You can replace it with any other database adapter that is compatible with Prisma._
 
 
-11. Initialize Prisma
+12. Initialize Prisma
 
 Inside the `./src/prisma` directory, you will find the `schema.prisma` file. This is where you define your database schema.
 You can copy the `schema.prisma` file from this boilerplate repository to your project.
@@ -171,7 +188,7 @@ Run the following command to create the database and tables:
 bun --env-file=.env prisma db push --schema=./src/prisma/schema.prisma
 ```
 
-12. Install [Better-Auth](https://www.better-auth.com)
+13. Install [Better-Auth](https://www.better-auth.com)
 
 Better-Auth is a modern authentication library that provides a simple and secure way to handle user authentication in your application.
 There are several authentication strategies available, such as email/password, social logins and more.
@@ -185,27 +202,56 @@ bunx @better-auth/cli generate --config ./src/lib/auth.ts
 
 This will create the `src/lib/auth.ts` file with the configuration for Better-Auth.
 
-13. Create the API routes
+14. Create the API routes
 
 Create a new folder `src/api` and inside it create the following files:
 ```bash
 mkdir -p src/api
-touch src/api/index.ts
-touch src/api/health.ts
-touch src/api/auth.ts
 ```
 
-14. Setup the tests
-At the root of the project, create a `tests` folder and inside it create a `api` folder.
+Then copy the all the files from the `api` folder of this boilerplate repository to your project.
+
+If you open `src/post.ts` you will see that it is a simple Hono route that handles the `/post` endpoint.
+You will also see that it contains Swagger comments that will be used to generate the OpenAPI specs document.
+
+To generate the OpenAPI specs document, you can run the following command:
+
+```bash
+bun run openapi
+```
+
+It will generate the OpenAPI specs document in the `./docs/openapi.json` file.
+
+This document can be used to generate a client SDK or to generate a MCP server for LLMs.
+
+15. Setup the tests
+
+At the root of the project, create a `tests` folder and inside it copy the content of the `tests` folder from this boilerplate repository.
 Then add [faker](https://fakerjs.dev/) package to generate fake data for testing:
 
 ```bash
 bun add -d @faker-js/faker
 ```
 
-Inside `tests/api` copy the `auth.test.ts` and `health.test.ts` files from this boilerplate repository.
+You can run the tests with the following command:
 
-15. Install [hey-api](https://heyapi.dev/)
+```bash
+bun test
+```
+
+Or if you want to run the tests with coverage, you can run:
+
+```bash
+bun test --coverage
+```
+
+If you want to run tests only for a specific section, like the API tests, you can run:
+
+```bash
+bun test ./tests/api
+```
+
+16. Install [hey-api](https://heyapi.dev/)
 
 Hey-API is a tool that can generate a client SDK from your OpenAPI specs document.
 
@@ -221,14 +267,43 @@ Then execute the following command to generate the client SDK:
 bun run openapi:client:hey-api
 ```
 
-16. Generate an OpenAPI MCP (Model-Context-Protocol) server for LLMs
+This will generate the client SDK in the `./dist/client/hey-api` folder.
 
-- https://github.com/ivo-toby/mcp-openapi-server
-- https://github.com/ReAPI-com/mcp-openapi
+17. Start an OpenAPI MCP (Model-Context-Protocol) server for LLMs
+
+[MCP-OpenAPI-server](https://github.com/ivo-toby/mcp-openapi-server)
+
+*Only do this step if you want to run the MCP server for LLMs.*
+
+This MCP server is a simple server that can be used to interact with LLMs (Large Language Models).
+It is based on the OpenAPI specs document generated by Swagger-JSDoc.
+
+You don't need to install anything, run the following command:
+
+```bash
+./start-mcp-server.sh
+```
+
+This will start the MCP server on port 4000. 
+
+## Start the API server
+
+To start the API server, run the following command:
+
+```bash
+bun run dev
+```
+
+This will start the server on the port defined in the `.env` file (default is 3000).
+You can then access the API at `http://localhost:3000`.
+
+You can also access the Swagger UI at `http://localhost:3000/docs` to see the API documentation and test the endpoints.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License 
+
+See the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 

@@ -3,10 +3,8 @@ import type { AuthType } from '../lib/auth';
 import { AuthError, AuthErrorType } from '../services/error/authError';
 import authRouter from './auth';
 import { healthHandler, testDBHandler } from './handlers/indexHandlers';
-// import { authMiddleware } from './middleware/authorization';
 import postRouter from './post';
 
-// const apiRouter = new Hono();
 const apiRouter = new Hono<{ Variables: AuthType }>({
   strict: false,
 });
@@ -51,7 +49,7 @@ apiRouter.get('/health/api', healthHandler);
 
 apiRouter.route('/auth', authRouter);
 
-// apiRouter.use(authMiddleware);
+// before the authentication middleware, all routes are public
 // Authentication middleware
 apiRouter.use(async (c, next) => {
   const session = c.get('session');
