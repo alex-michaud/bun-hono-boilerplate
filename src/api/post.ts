@@ -9,9 +9,7 @@ import {
   updatePostHandler,
 } from './handlers/postHandlers';
 
-const app = new Hono<{ Variables: AuthType }>({
-  strict: false,
-});
+const app = new Hono<{ Variables: AuthType }>({ strict: false });
 
 // Define the schema for post creation
 const createPostSchema = z.object({

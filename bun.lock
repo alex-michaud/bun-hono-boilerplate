@@ -5,6 +5,7 @@
       "dependencies": {
         "@electric-sql/pglite": "^0.3.2",
         "@hey-api/openapi-ts": "^0.68.0",
+        "@hono/swagger-ui": "^0.5.1",
         "better-auth": "^1.2.8",
         "hono": "^4.7.10",
         "init": "^0.1.2",
@@ -18,6 +19,7 @@
         "@hey-api/client-fetch": "^0.10.2",
         "@types/bun": "latest",
         "@types/node": "^22.15.21",
+        "@types/pino": "^7.0.5",
         "@types/swagger-jsdoc": "^6.0.4",
         "swagger-jsdoc": "^6.2.8",
       },
@@ -67,6 +69,8 @@
 
     "@hey-api/openapi-ts": ["@hey-api/openapi-ts@0.68.0", "", { "dependencies": { "@hey-api/json-schema-ref-parser": "1.0.6", "c12": "2.0.1", "commander": "13.0.0", "handlebars": "4.7.8" }, "peerDependencies": { "typescript": "^5.5.3" }, "bin": { "openapi-ts": "bin/index.cjs" } }, "sha512-Pqz26xx/KpyQBqEzhIVQB2m7K9vq9ENufxpzDA0hrr9paE0n5OLEpbJOht5MK7Hxk5G+f/ifaYXciat0bRCXjQ=="],
 
+    "@hono/swagger-ui": ["@hono/swagger-ui@0.5.1", "", { "peerDependencies": { "hono": "*" } }, "sha512-XpUCfszLJ9b1rtFdzqOSHfdg9pfBiC2J5piEjuSanYpDDTIwpMz0ciiv5N3WWUaQpz9fEgH8lttQqL41vIFuDA=="],
+
     "@jsdevtools/ono": ["@jsdevtools/ono@7.1.3", "", {}, "sha512-4JQNk+3mVzK3xh2rqd6RB4J46qUR19azEHBneZyTZM+c456qOrbbM/5xcR8huNCCcbVt7+UmizG6GuUvPvKUYg=="],
 
     "@levischuck/tiny-cbor": ["@levischuck/tiny-cbor@0.2.11", "", {}, "sha512-llBRm4dT4Z89aRsm6u2oEZ8tfwL/2l6BwpZ7JcyieouniDECM5AqNgr/y08zalEIvW3RSK4upYyybDcmjXqAow=="],
@@ -110,6 +114,8 @@
     "@types/json-schema": ["@types/json-schema@7.0.15", "", {}, "sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA=="],
 
     "@types/node": ["@types/node@22.15.21", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-EV/37Td6c+MgKAbkcLG6vqZ2zEYHD7bvSrzqqs2RIhbA6w3x+Dqz8MZM3sP6kGTeLrdoOgKZe+Xja7tUB2DNkQ=="],
+
+    "@types/pino": ["@types/pino@7.0.5", "", { "dependencies": { "pino": "*" } }, "sha512-wKoab31pknvILkxAF8ss+v9iNyhw5Iu/0jLtRkUD74cNfOOLJNnqfFKAv0r7wVaTQxRZtWrMpGfShwwBjOcgcg=="],
 
     "@types/swagger-jsdoc": ["@types/swagger-jsdoc@6.0.4", "", {}, "sha512-W+Xw5epcOZrF/AooUM/PccNMSAFOKWZA5dasNyMujTwsBkU74njSJBpvCCJhHAJ95XRMzQrrW844Btu0uoetwQ=="],
 
