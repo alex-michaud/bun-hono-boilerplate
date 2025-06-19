@@ -6,16 +6,25 @@ and select the right tools to build a solid foundation for a REST API backend.
 More recently, I've been exploring Bun and Hono, which are modern alternatives 
 to Node.js and Express.js, respectively. 
 
-Even though one of Bun best-selling points is its performance, the main reason 
+Even though one of Bun's best-selling points is its performance, the main reason 
 it caught my attention is its tooling and its TypeScript support out of the box. 
-I've been working for several startups companies and I give a lot of importance 
-to developer experience, simplicity and maintainability. 
+I've been working for several startups and I give a lot of importance 
+to [TCO](https://en.wikipedia.org/wiki/Total_cost_of_ownership). 
 
 Consequently, I decided to create a boilerplate that combines Bun and Hono, as 
 well as other tools that I find useful for building a REST API backend. I try to 
 keep the complexity as low as possible without sacrificing important aspects like 
 testing, documentation, security, maintainability and performance. 
 
+## Table of Contents
+
+- [Why Bun and Hono?](#why-bun-and-hono)
+- [Features](#features)
+- [Step-by-Step Installation Guide](#step-by-step-installation-guide)
+- [Start the API server](#start-the-api-server)
+- [Conclusion](#conclusion)
+- [License](#license)
+- [Contributing](#contributing)
 
 ## Why Bun and Hono?
 
@@ -76,6 +85,9 @@ bun upgrade
 
 ### 2. Initialize a new Bun project
 
+Create a new directory for your project, navigate into it and run the following 
+command:
+
 ```bash
 bun init
 ```
@@ -88,13 +100,16 @@ This will create the following files:
 
 ### 3. Install [Hono](https://hono.dev/)
 
-Hono is the framework that will be used to build the API.
+Hono is the framework that will be used to build the API. To install it, run the 
+following command:
 
 ```bash
 bun add hono
 ```
 
 ### 4. Create a .env file
+
+We will use environment variables to configure the API. Create a `.env` file
 
 ```bash
 touch .env
@@ -127,6 +142,7 @@ bun add zod
 ### 6. Create a config file that will be used to load the environment variables
 
 ```bash
+mkdir src
 touch ./src/config.ts
 ```
 
@@ -138,7 +154,7 @@ To know what to put in the `config.ts` file, refer to the
 Swagger-JSDoc is a tool that allows you to generate OpenAPI specs document from 
 comments in your code.
 It is useful for many reasons :
-- It allows you to document your API standardly.
+- It allows you to document your API in a standard way.
 - It allows other developers to understand your API without having to read the code.
 - It allows generating a client SDK for your API. (React, Angular, Vue, etc.)
 - It allows generating an MCP (Model-Context-Protocol)
@@ -188,7 +204,7 @@ bun add pino pino-pretty
 bun add -d @types/pino
 ```
 
-Copy the file `./src/services/logger.ts` from this boilerplate 
+**Copy the file `./src/services/logger.ts`** from this boilerplate 
 repository to your project.
 
 ### 10. Install [Prisma](https://www.prisma.io)
@@ -232,8 +248,7 @@ docker compose up -d
 ### 12. Initialize Prisma
 
 Inside the `./src/prisma/` directory, you will find the `schema.prisma` file. 
-This is where you define your database schema. You can copy the `schema.prisma` 
-file from this boilerplate repository to your project.
+This is where you define your database schema. You can **copy the file `schema.prisma`** from this boilerplate repository to your project.
 
 Run the following command to generate the Prisma client:
 
@@ -247,7 +262,7 @@ Run the following command to create the database and tables:
 bun --env-file=.env prisma db push --schema=./src/prisma/schema.prisma
 ```
 
-Finally, copy the file `src/services/database.ts` from this boilerplate 
+Finally, **copy the file `src/services/database.ts`** from this boilerplate 
 repository to your project.
 
 ### 13. Install [Better-Auth](https://www.better-auth.com)
@@ -273,7 +288,7 @@ Create a new folder `src/api/`:
 mkdir -p src/api
 ```
 
-Then copy all the files from the `api` folder of this boilerplate repository to 
+Then **copy all the files from the `api` folder** from the boilerplate repository to 
 your project.
 
 If you open `src/post.ts` you will see that it is a simple Hono route that 
@@ -282,9 +297,9 @@ You will also see that it contains Swagger comments that will be used to generat
 the OpenAPI specs document.
 
 For error handling, refer to the folder `/src/services/error/` in this boilerplate 
-repository. Copy all the files from this folder to your project. 
+repository. **Copy all the files from `/src/services/error/`** to your project. 
 
-Also copy `src/index.ts` and `src/server.ts` files from this boilerplate 
+Also **copy `src/index.ts` and `src/server.ts` files** from this boilerplate 
 repository to your project.
 
 To generate the OpenAPI specs document, you can run the following command:
@@ -300,8 +315,8 @@ for LLMs.
 
 ### 15. Set up the tests
 
-At the root of the project, create a `tests` folder and inside it copy the 
-content of the `tests` folder from this boilerplate repository. Then add 
+At the root of the project, create a `tests` folder and inside it **copy the 
+content of the `tests` folder** from this boilerplate repository. Then add 
 [faker](https://fakerjs.dev/) package to generate fake data for testing:
 
 ```bash
@@ -335,7 +350,7 @@ bun add -d @hey-api/client-fetch
 bun add @hey-api/openapi-ts
 ```
 
-Copy the file `openapi-ts.config.ts` from this boilerplate repository to your project.
+**Copy the file `openapi-ts.config.ts`** from this boilerplate repository to your project.
 
 Then execute the following command to generate the client SDK:
 
@@ -382,6 +397,13 @@ This will start the server on the port defined in the `.env` file (default is 30
 You can then access the API at `http://localhost:3000`.
 
 You can also access the Swagger UI at `http://localhost:3000/docs` to see the API documentation and test the endpoints.
+
+## Conclusion
+
+I will continue to improve this boilerplate over time. I'm planning to use it 
+as a base for my future projects. Feel free to use it as you wish, and if you 
+have any suggestions or improvements, please open an issue or a pull request on 
+the [GitHub repository](https://github.com/alex-michaud/bun-hono-boilerplate/issues)
 
 ## License
 
