@@ -1,23 +1,29 @@
-# bun-hono-boilerplate
+# Complete boilerplate with Bun and Hono
 
-# WIP - Do not use yet
+Since 2014 I've been building several REST API backends with Node.js, mostly 
+with Express.js. Over the years, I've learned a lot about how to structure a project 
+and select the right tools to build a solid foundation for a REST API backend. 
+More recently, I've been exploring Bun and Hono, which are modern alternatives 
+to Node.js and Express.js, respectively. 
 
-Boilerplate project to create a backend with Bun and Hono
+Even though one of Bun best-selling points is its performance, the main reason 
+it caught my attention is its tooling and its TypeScript support out of the box. 
+I've been working for several startups companies and I give a lot of importance 
+to developer experience, simplicity and maintainability. 
 
-(This is a work in progress, don't use it in production yet)
+Consequently, I decided to create a boilerplate that combines Bun and Hono, as 
+well as other tools that I find useful for building a REST API backend. I try to 
+keep the complexity as low as possible without sacrificing important aspects like 
+testing, documentation, security, maintainability and performance. 
+
 
 ## Why Bun and Hono?
 
 Bun is a modern JavaScript runtime that is fast and efficient. 
 It is designed to be a drop-in replacement for Node.js, but with a focus on 
-performance and developer experience. Hono is a fast and lightweight web 
-framework that is compatible with Bun. 
+performance and developer experience. 
 
-The goal of this boilerplate is to provide a starting point for building a REST 
-API backend that is fast, well-structured and easy to maintain.
-The project values simplicity and ease of understanding (low cognitive 
-complexity), which increase the chance of success.
-Another goal is to create code that is straightforward to test and easy to extend.
+Hono is a fast and lightweight web framework that is compatible with Bun.
 
 ## Features
 
@@ -37,18 +43,18 @@ backend with the following features:
 Both hey-api and MCP server leverage the OpenAPI specs document to generate a 
 client SDK and a server that can be used to interact with LLMs.
 
-Before going further, keep a tab open to the Github repository of this 
+Before going further, keep a tab open to the GitHub repository of this 
 [boilerplate](https://github.com/alex-michaud/bun-hono-boilerplate). I won't copy 
 the code of every file here, but for each step I will tell you where to look in 
 the repository to find the code you need to copy or adapt.
 
-## Step by Step Installation Guide
+## Step-by-Step Installation Guide
 
 To run this project, you will first need to install the [Bun](https://bun.sh/) runtime.
 Bun also comes with a package manager and some utilities that I believe will 
 simplify the project by having fewer packages to install and maintain.
 
-Step-by-step guide to install bun, hono and other dependencies:
+Step-by-step guide to install Bun, Hono and other dependencies:
 
 ### 1. Install [Bun](https://bun.sh/docs/installation)
 
@@ -82,7 +88,7 @@ This will create the following files:
 
 ### 3. Install [Hono](https://hono.dev/)
 
-Hono is the framework that will be used to create the API.
+Hono is the framework that will be used to build the API.
 
 ```bash
 bun add hono
@@ -135,7 +141,7 @@ It is useful for many reasons :
 - It allows you to document your API standardly.
 - It allows other developers to understand your API without having to read the code.
 - It allows generating a client SDK for your API. (React, Angular, Vue, etc.)
-- It allows generating a MCP (Model-Context-Protocol)
+- It allows generating an MCP (Model-Context-Protocol)
 
 ```bash
 bun add -d swagger-jsdoc @types/swagger-jsdoc
@@ -152,25 +158,33 @@ bun run openapi
 
 This will generate the OpenAPI specs document in the `./docs/openapi.json` file.
 
-### 8. Install [Biome](https://biomejs.dev) *linting and formatting tool*
+### 8. Install [Biome](https://biomejs.dev) *(linting and formatting tool)*
 
 Biome is a modern linting and formatting tool that replaces ESLint and Prettier.
 It's easier to use and configure than ESLint and Prettier, and it's also a lot 
-faster.
+faster. If you currently use ESLint and Prettier, you can replace them with Biome.
 
 ```bash
-bun add -d @biomejs/biome
+bun add -D -E @biomejs/biome
 ```
+
+To generate the configuration file, run:
+
+```bash
+bunx --bun biome init
+```
+
+This will create a `biome.json` file in the root of your project.
 
 ### 9. Install [Pino](https://getpino.io)
 
-Pino is a fast and lightweight logging library. 
+Pino is a fast and lightweight logging library.
 
 _[Winston](https://github.com/winstonjs/winston) is also a good option, it has a
 better documentation and broader support, but it's also a bit heavier_
 
 ```bash
-bun add pino pino-pretty 
+bun add pino pino-pretty
 bun add -d @types/pino
 ```
 
@@ -188,7 +202,7 @@ bun add -d typescript @types/node
 bun add prisma
 ```
 
-### 11. Install [PGLite](https://pglite.dev/) and its [adapter](https://github.com/lucasthevenet/pglite-utils/tree/main/packages/prisma-adapter)
+### 11.A. Install [PGLite](https://pglite.dev/) and its [adapter](https://github.com/lucasthevenet/pglite-utils/tree/main/packages/prisma-adapter)
 
 PGLite is a lightweight, file-based database. It's suitable for demo projects 
 like this one, but not for production use. If you're planning to build a 
@@ -197,15 +211,23 @@ A docker service is more similar to what you will use in production. You can
 refer to the file `docker-compose.yml` in this repository for an example of how 
 to set up a Postgres database with Docker.
 
-_skip this step if you plan to use a docker service instead of PGLite._
+*skip this step if you plan to use a docker service instead of PGLite.*
 
 ```bash
 bun add pglite-prisma-adapter @electric-sql/pglite
 ```
 
-_Note: PGLite is used as an example for this boilerplate. You can replace it 
-with any other database adapter that is compatible with Prisma._
+*Note: PGLite is used as an example for this boilerplate. You can replace it 
+with any other database adapter that is compatible with Prisma.*
 
+### 11.B. Use a Docker Postgresql service
+
+If you prefer to use a Docker service instead of PGLite, you can use the 
+`docker-compose.yml` file in this repository. To start the Docker service, run:
+
+```bash
+docker compose up -d
+```
 
 ### 12. Initialize Prisma
 
@@ -278,8 +300,9 @@ for LLMs.
 
 ### 15. Set up the tests
 
-At the root of the project, create a `tests` folder and inside it copy the content of the `tests` folder from this boilerplate repository.
-Then add [faker](https://fakerjs.dev/) package to generate fake data for testing:
+At the root of the project, create a `tests` folder and inside it copy the 
+content of the `tests` folder from this boilerplate repository. Then add 
+[faker](https://fakerjs.dev/) package to generate fake data for testing:
 
 ```bash
 bun add -d @faker-js/faker
@@ -303,7 +326,7 @@ If you want to run tests only for a specific section, like the API tests, you ca
 bun test ./tests/api
 ```
 
-### 16. Install [hey-api](https://heyapi.dev/)
+### 16. Install [Hey-API](https://heyapi.dev/)
 
 Hey-API is a tool that can generate a client SDK from your OpenAPI specs document.
 
@@ -324,7 +347,7 @@ This will generate the client SDK in the `./dist/client/hey-api` folder.
 
 If you want to generate the client SDK for Next.js, refer to this [documentation](https://heyapi.dev/openapi-ts/clients/next-js).
 
-I won't go into the details about how to use the client SDK. Check hey-api's website 
+I won't go into the details about how to use the client SDK. Check Hey-API's website 
 for the documentation and examples.
 
 ### 17. Start an OpenAPI MCP (Model-Context-Protocol) server for LLMs

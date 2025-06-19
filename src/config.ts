@@ -5,6 +5,7 @@ const zodConfigObject = {
   BETTER_AUTH_SECRET: z.string(),
   BETTER_AUTH_URL: z.string().optional(),
   DATABASE_DIR: z.string().default('./data'),
+  // DATABASE_URL: z.string(), // Uncomment if using a docker service instead of PGlite
   NODE_ENV: z.string().default('test'),
   API_PORT: z
     .string()
