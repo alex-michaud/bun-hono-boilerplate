@@ -9,12 +9,13 @@ to Node.js and Express.js, respectively.
 Even though one of Bun's best-selling points is its performance, the main reason 
 it caught my attention is its tooling and its TypeScript support out of the box. 
 I've been working for several startups and I give a lot of importance 
-to [TCO](https://en.wikipedia.org/wiki/Total_cost_of_ownership). 
+to [TCO](https://en.wikipedia.org/wiki/Total_cost_of_ownership) and I believe that 
+Bun can be part of the solution to reduce the TCO of a project.
 
 Consequently, I decided to create a boilerplate that combines Bun and Hono, as 
 well as other tools that I find useful for building a REST API backend. I try to 
 keep the complexity as low as possible without sacrificing important aspects like 
-testing, documentation, security, maintainability and performance. 
+testing, documentation, security and maintainability. 
 
 ## Table of Contents
 
@@ -119,7 +120,7 @@ And add the following content:
 
 ```
 API_PORT=3000
-DATABASE_DIR="./data"
+DATABASE_DIR=./data
 BETTER_AUTH_SECRET=better-auth-secret
 TRUSTED_ORIGINS=http://localhost:3000
 ```
@@ -127,7 +128,7 @@ TRUSTED_ORIGINS=http://localhost:3000
 Run this command to create the data directory:
 
 ```bash
-mkdir -p data
+mkdir data
 ```
 
 ### 5. Install [Zod](https://zod.dev)
@@ -146,10 +147,17 @@ mkdir src
 touch ./src/config.ts
 ```
 
-To know what to put in the `config.ts` file, refer to the 
-`./src/config.ts` file in this boilerplate repository.
+**Copy the content of the `config.ts` file** from this boilerplate repository to
+your project. This file will load the environment variables from the `.env` file
+and provide a type-safe way to access them throughout the application.
 
-### 7. Install Swagger-JSDoc
+### 7. Import the scripts and prisma config from package.json
+
+From the boilerplate repository, open the `package.json` file and copy the `scripts`
+and `prisma` sections to your project's `package.json` file.
+
+
+### 8. Install Swagger-JSDoc
 
 Swagger-JSDoc is a tool that allows you to generate OpenAPI specs document from 
 comments in your code.
@@ -164,9 +172,17 @@ bun add -d swagger-jsdoc @types/swagger-jsdoc
 bun add @hono/swagger-ui
 ```
 
-There is a script in `./scripts/generate-openapi.ts` that will generate the 
-OpenAPI documentation from the comments in the code.
-You can run it with:
+Create a scripts folder in the root of your project:
+```bash
+mkdir scripts
+```
+
+Then **copy the file `generate-openapi.ts`** from this boilerplate repository to
+your project. This script will generate the OpenAPI specs document from the comments
+in the code. It uses Swagger-JSDoc to parse the comments and generate the OpenAPI
+specs document.
+
+To generate the OpenAPI specs document, you can run the following command:
 
 ```bash
 bun run openapi
@@ -174,7 +190,7 @@ bun run openapi
 
 This will generate the OpenAPI specs document in the `./docs/openapi.json` file.
 
-### 8. Install [Biome](https://biomejs.dev) *(linting and formatting tool)*
+### 9. Install [Biome](https://biomejs.dev) *(linting and formatting tool)*
 
 Biome is a modern linting and formatting tool that replaces ESLint and Prettier.
 It's easier to use and configure than ESLint and Prettier, and it's also a lot 
@@ -192,7 +208,7 @@ bunx --bun biome init
 
 This will create a `biome.json` file in the root of your project.
 
-### 9. Install [Pino](https://getpino.io)
+### 10. Install [Pino](https://getpino.io)
 
 Pino is a fast and lightweight logging library.
 
@@ -204,10 +220,16 @@ bun add pino pino-pretty
 bun add -d @types/pino
 ```
 
+Create a `src/services/` directory:
+
+```bash
+mkdir -p src/services
+```
+
 **Copy the file `./src/services/logger.ts`** from this boilerplate 
 repository to your project.
 
-### 10. Install [Prisma](https://www.prisma.io)
+### 11. Install [Prisma](https://www.prisma.io)
 
 Prisma is a modern ORM that allows you to interact with your database in a 
 type-safe way. It offers a great migration system, a modern query API and good 
@@ -218,7 +240,7 @@ bun add -d typescript @types/node
 bun add prisma
 ```
 
-### 11.A. Install [PGLite](https://pglite.dev/) and its [adapter](https://github.com/lucasthevenet/pglite-utils/tree/main/packages/prisma-adapter)
+### 12.A. Install [PGLite](https://pglite.dev/) and its [adapter](https://github.com/lucasthevenet/pglite-utils/tree/main/packages/prisma-adapter)
 
 PGLite is a lightweight, file-based database. It's suitable for demo projects 
 like this one, but not for production use. If you're planning to build a 
@@ -230,13 +252,17 @@ to set up a Postgres database with Docker.
 *skip this step if you plan to use a docker service instead of PGLite.*
 
 ```bash
-bun add pglite-prisma-adapter @electric-sql/pglite
+bun add pglite-prisma-adapter 
+bun add @electric-sql/pglite
 ```
+
+**Copy the file `prisma.config.ts`** from this boilerplate repository to your 
+project.
 
 *Note: PGLite is used as an example for this boilerplate. You can replace it 
 with any other database adapter that is compatible with Prisma.*
 
-### 11.B. Use a Docker Postgresql service
+### 12.B. Use a Docker Postgresql service
 
 If you prefer to use a Docker service instead of PGLite, you can use the 
 `docker-compose.yml` file in this repository. To start the Docker service, run:
@@ -245,15 +271,21 @@ If you prefer to use a Docker service instead of PGLite, you can use the
 docker compose up -d
 ```
 
-### 12. Initialize Prisma
+### 13. Initialize Prisma
 
-Inside the `./src/prisma/` directory, you will find the `schema.prisma` file. 
-This is where you define your database schema. You can **copy the file `schema.prisma`** from this boilerplate repository to your project.
+Create a new directory `src/prisma/`:
+
+```bash
+mkdir -p src/prisma
+```
+
+Then **copy the file `src/prisma/schema.prisma`** from this boilerplate 
+repository to your project.
 
 Run the following command to generate the Prisma client:
 
 ```bash
-bun prisma generate --schema=./src/prisma/schema.prisma
+bun --env-file=.env prisma generate --schema=./src/prisma/schema.prisma
 ```
 
 Run the following command to create the database and tables:
@@ -265,7 +297,7 @@ bun --env-file=.env prisma db push --schema=./src/prisma/schema.prisma
 Finally, **copy the file `src/services/database.ts`** from this boilerplate 
 repository to your project.
 
-### 13. Install [Better-Auth](https://www.better-auth.com)
+### 14. Install [Better-Auth](https://www.better-auth.com)
 
 Better-Auth is a modern authentication library that provides a simple and secure 
 way to handle user authentication in your application. There are several 
@@ -273,15 +305,19 @@ authentication strategies available, such as email/password, social logins and
 more. It can do a lot, therefore, I recommend you to check the 
 [documentation](https://www.better-auth.com/docs) to understand how it works and how to configure it.
 
-
 ```bash
 bun add better-auth
-bunx @better-auth/cli generate --config ./src/lib/auth.ts
+mkdir -p src/lib
+mkdir -p src/services/error
 ```
 
-This will create the `src/lib/auth.ts` file with the configuration for Better-Auth.
+**Copy all the files from `src/services/error/`** from this boilerplate repository 
+to your project.
 
-### 14. Create the API routes
+Then **copy the file `src/lib/auth.ts`** from this boilerplate repository to 
+your project.
+
+### 15. Create the API routes
 
 Create a new folder `src/api/`:
 ```bash
@@ -295,9 +331,6 @@ If you open `src/post.ts` you will see that it is a simple Hono route that
 handles the `/post` endpoint.
 You will also see that it contains Swagger comments that will be used to generate 
 the OpenAPI specs document.
-
-For error handling, refer to the folder `/src/services/error/` in this boilerplate 
-repository. **Copy all the files from `/src/services/error/`** to your project. 
 
 Also **copy `src/index.ts` and `src/server.ts` files** from this boilerplate 
 repository to your project.
@@ -313,11 +346,18 @@ It will generate the OpenAPI specs document in the `./docs/openapi.json` file.
 This document can be used to generate a client SDK or to generate an MCP server 
 for LLMs.
 
-### 15. Set up the tests
+### 16. Set up the tests
 
-At the root of the project, create a `tests` folder and inside it **copy the 
-content of the `tests` folder** from this boilerplate repository. Then add 
-[faker](https://fakerjs.dev/) package to generate fake data for testing:
+To ensure the quality of your code, it's important to write tests. 
+
+First, create a tests folder at the root of your project:
+
+```bash
+mkdir tests
+```
+
+Now **copy the content of the `tests` folder** from this boilerplate repository. 
+Then add[faker](https://fakerjs.dev/) package to generate fake data for testing:
 
 ```bash
 bun add -d @faker-js/faker
@@ -341,7 +381,7 @@ If you want to run tests only for a specific section, like the API tests, you ca
 bun test ./tests/api
 ```
 
-### 16. Install [Hey-API](https://heyapi.dev/)
+### 17. Install [Hey-API](https://heyapi.dev/)
 
 Hey-API is a tool that can generate a client SDK from your OpenAPI specs document.
 
@@ -365,7 +405,7 @@ If you want to generate the client SDK for Next.js, refer to this [documentation
 I won't go into the details about how to use the client SDK. Check Hey-API's website 
 for the documentation and examples.
 
-### 17. Start an OpenAPI MCP (Model-Context-Protocol) server for LLMs
+### 18. Start an OpenAPI MCP (Model-Context-Protocol) server for LLMs
 
 [MCP-OpenAPI-server](https://github.com/ivo-toby/mcp-openapi-server)
 
@@ -396,7 +436,8 @@ bun run dev
 This will start the server on the port defined in the `.env` file (default is 3000).
 You can then access the API at `http://localhost:3000`.
 
-You can also access the Swagger UI at `http://localhost:3000/docs` to see the API documentation and test the endpoints.
+You can also access the Swagger UI at `http://localhost:3000/docs` to see the 
+API documentation and test the endpoints.
 
 ## Conclusion
 
